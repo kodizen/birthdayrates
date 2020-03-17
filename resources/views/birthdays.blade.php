@@ -14,6 +14,11 @@
     <body>
        <h1>Birthday Rates</h1>
 
-       {{ $birthdays}}
+        @if (count($birthdays) > 0)
+            {{ $birthdays}}
+        @else 
+            <p>Sorry, no birthdays have been submitted yet :(</p>
+        @endif
+      
     </body>
 </html>

@@ -29,38 +29,35 @@ class SiteTest extends TestCase
     }
 
     /**
-     * Can we see the homepage?
+     * Can we see the homepage with no birthdays?
      *
      * @return void
      */
-    // public function testPageRendersWithNoBirthdays()
-    // {
-    //     $response = $this->call('GET', '/');
-    //     
+    public function testPageRendersWithNoBirthdays()
+    {
+        $response = $this->call('GET', '/');
 
-    //     
-
-
-    // }
+        $response->assertSeeText("Sorry, no birthdays have been submitted yet :(");
+    }
 
     /**
      * Can we submit a date?
      *
      * @return void
      */
-    // public function testCanSubmitACorrectDate()
-    // {
-    //     $faker = Faker\Factory::create();
-    //     $randomYearDate = $faker->dateTimeBetween('-1 years', 'now')->format('Y-m-d');
+    public function testCanSubmitACorrectDate()
+    {
+        $faker = \Faker\Factory::create();
+        $randomYearDate = $faker->dateTimeBetween('-1 years', 'now')->format('Y-m-d');
 
-    //     $response = $this->post('/birthdays', [
-    //         'date' => $randomYearDate
-    //     ]);
+        $response = $this->post('/birthdays', [
+            'date' => $randomYearDate
+        ]);
 
-    //     $response->assertStatus(200);
+        $response->assertStatus(200);
 
-    //     $response->assertSessionHasErrors([]);
-    // }
+        $response->assertSessionHasErrors([]);
+    }
 
     /**
      * Can we submit an incorrect date?
