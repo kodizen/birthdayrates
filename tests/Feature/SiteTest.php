@@ -2,12 +2,26 @@
 
 namespace Tests\Feature;
 
+use DateTime;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 use Faker;
+
 class SiteTest extends TestCase
 {
+    protected $birthdays;
+    public function setUp() :void
+    {
+        parent::setUp();
 
+        $this->seed();
+
+        // Should pull these from a proper factory class.
+        $this->birthday = factory(\Birthday::class)->create([
+            'date' => new DateTime(),
+            'ocurrences' => 12
+        ]);
+    }
     /**
      * Can we see the homepage?
      *
@@ -15,9 +29,14 @@ class SiteTest extends TestCase
      */
     public function testPageRenders()
     {
-        $response = $this->get('/');
+        $response = $this->call('GET', 'birthdays');
 
-        $response->assertStatus(200);
+        $response->assertViewHas('birthdays', function($birthdays) {
+            return $birthdays->contains($this->birthday);
+        });
+        $birthdays = $response->original->getData()['birthdays'];
+
+        $this->assertInstanceOf('Illuminate\Database\Eloquent\Collection', $birthdays);
     }
 
     /**
@@ -29,7 +48,7 @@ class SiteTest extends TestCase
     {
         $faker = Faker\Factory::create();
         $randomYearDate = $faker->dateTimeBetween('-1 years', 'now')->format('Y-m-d');
-        
+
         $response = $this->post('/birthdays', [
             'date' => $randomYearDate
         ]);
@@ -37,8 +56,6 @@ class SiteTest extends TestCase
         $response->assertStatus(200);
 
         $response->assertSessionHasErrors([]);
-
-       
     }
 
     /**
@@ -53,7 +70,7 @@ class SiteTest extends TestCase
         $faker = Faker\Factory::create();
 
         $randomYearDate = $faker->dateTimeBetween('+1 years', '+2 years')->format('Y-m-d');
-        
+
         $response = $this->post('/birthdays', [
             'date' => $randomYearDate
         ]);
