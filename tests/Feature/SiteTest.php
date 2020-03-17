@@ -27,9 +27,11 @@ class SiteTest extends TestCase
      */
     public function testCanSubmitACorrectDate()
     {
-        $response = $this->get('/');
-
-        $response->assertStatus(200);
+        //  $this->visit('/')
+        //  ->type('15/01/2019', 'date')
+        //  ->press('Submit')
+        //  ->see('<List of dates here>')
+        //  ->seePageIs('/');
     }
 
     /**
@@ -39,8 +41,10 @@ class SiteTest extends TestCase
      */
     public function testCanNotSubmitAnIncorrectDate()
     {
-        $response = $this->get('/');
-
-        $response->assertStatus(200);
+         //  $this->visit('/')
+        //  ->type('15/01/2015', 'date')
+        //  ->press('Submit')
+        //  ->see('<Error Message>')
+        //  ->seePageIs('/');
     }
 }
