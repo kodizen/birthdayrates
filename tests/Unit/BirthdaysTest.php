@@ -24,7 +24,6 @@ class BirthdaysTest extends TestCase
 
         $this->get(route('birthdays'))
             ->assertStatus(200)
-            ->assertJson($birthdays->toArray())
             ->assertJsonStructure([
                 '*' => ['id', 'birthday', 'occurrences'],
             ]);
@@ -123,7 +122,7 @@ class BirthdaysTest extends TestCase
 
         // Get most recent date from generated birthdays.
         $max = max(array_map('strtotime', $dateArray));
-        $content = $this->get('/')->decodeResponseJson();
+        $content = $this->get(route('birthdays'))->decodeResponseJson();
 
         // Check the most recent date in our generated birthdays matches the first element of the json response we get at '/'
         $this->assertEquals($content[0]["birthday"], date('Y-m-d', $max));
@@ -136,7 +135,10 @@ class BirthdaysTest extends TestCase
      */
     public function testDateFormatCorrect()
     {
-        // The date should be displayed in the following format "15th January 2019"
-        // $this->assertTrue(false);
+        $birthday = factory(Birthday::class)->make([
+            'birthday' => \Carbon\Carbon::parse('2020-01-15')
+        ]);
+
+        $this->assertEquals($birthday->getFormattedDate(), "15th January 2020");
     }
 }

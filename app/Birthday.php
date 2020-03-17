@@ -14,4 +14,14 @@ class Birthday extends Model
     protected $fillable = [
         'birthday', 'occurrences'
     ];
+
+    /**
+     * Get the date in a formatted string.
+     *
+     * @return string
+     */
+    public function getFormattedDate()
+    {
+        return \Carbon\Carbon::parse($this->birthday)->format('jS F Y');
+    }
 }
