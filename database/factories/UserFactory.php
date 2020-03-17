@@ -30,6 +30,7 @@ $factory->define(User::class, function (Faker $faker) {
 
 $factory->define(Birthday::class, function (Faker $faker) {
     return [
-        'date' => now()
+        'birthday' => $faker->dateTimeBetween('-1 years', 'now'),
+        'occurrences' => rand()
     ];
 });

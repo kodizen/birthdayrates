@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
+use App\Birthday;
 class BirthdaysController extends Controller
 {
     /**
@@ -13,7 +13,10 @@ class BirthdaysController extends Controller
      */
     public function index()
     {
-        return view('birthdays');
+        $birthdays = Birthday::all();
+        // dd($birthdays);
+
+        return view('birthdays')->with('birthdays',$birthdays);
     }
 
     /**

@@ -16,7 +16,7 @@ class CreateBirthdaysTable extends Migration
         Schema::create('birthdays', function (Blueprint $table) {
             $table->id();
             $table->timestamp('birthday');
-            $table->integer('occurences')->default(1)->unsigned();
+            $table->integer('occurrences')->default(1)->unsigned();
             $table->timestamps();
         });
     }
