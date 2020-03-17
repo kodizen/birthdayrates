@@ -18,7 +18,7 @@
     </filter>
     <php>
         <server name="APP_ENV" value="testing"/>
-        <server name="FIXER_API_KEY" value="KEY HERE" />
+        <server name="FIXER_API_KEY" value="" />
         <server name="BCRYPT_ROUNDS" value="4"/>
         <server name="CACHE_DRIVER" value="array"/>
         <server name="DB_CONNECTION" value="sqlite"/>
