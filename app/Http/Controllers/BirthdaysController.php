@@ -33,7 +33,6 @@ class BirthdaysController extends Controller
      */
     public function store(Request $request) {
         $birthday = Birthday::create($request->all());
-        dd($birthday);
         return response()->json($birthday, 201);
     }
 

@@ -30,7 +30,7 @@ $factory->define(User::class, function (Faker $faker) {
 
 $factory->define(Birthday::class, function (Faker $faker) {
     return [
-        'birthday' => $faker->dateTimeBetween('-1 years', 'now'),
+        'birthday' => \Carbon\Carbon::createFromTimeStamp($faker->dateTimeBetween('-1 years', 'now')->getTimestamp()),
         'occurrences' => rand()
     ];
 });

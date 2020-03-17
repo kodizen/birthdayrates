@@ -11,8 +11,27 @@ class BirthdaysTest extends TestCase
 {
     use RefreshDatabase;
 
+     /**
+     * A test to make sure we can submit a birthday and we get the returned birthday.
+     *
+     * @return void
+     */
+    public function testCanViewBirthdays()
+    {
+        $birthdays = factory(Birthday::class, 2)->create()->map(function ($birthday) {
+            return $birthday->only(['id', 'birthday', 'occurrences']);
+        });
+
+        $this->get(route('birthdays'))
+            ->assertStatus(200)
+            ->assertJson($birthdays->toArray())
+            ->assertJsonStructure([
+                '*' => [ 'id', 'birthday', 'occurrences' ],
+            ]);
+    }
+
     /**
-     * A test to make sure the returned date list shows the most recent date first.
+     * A test to make sure we can submit a birthday and we get the returned birthday.
      *
      * @return void
      */
