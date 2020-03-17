@@ -15,7 +15,8 @@ class BirthdaysController extends Controller
      */
     public function index()
     {
-        return Birthday::all();
+        // Return birthdays sorted by date.
+        return Birthday::orderBy('birthday', 'desc')->get();
     }
 
     /**
@@ -35,16 +36,16 @@ class BirthdaysController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {   
+    {
         $dateRequest = \Carbon\Carbon::createFromDate($request->birthday);
-        if($dateRequest->isFuture()){
+        if ($dateRequest->isFuture()) {
             return response()->json([
                 'errors' => 'Sorry, No fate but what we make. Please submit a past date.',
                 'request' => $request->all()
             ], 422);
         }
 
-        if($dateRequest->lt(\Carbon\Carbon::now()->subYear())){
+        if ($dateRequest->lt(\Carbon\Carbon::now()->subYear())) {
             return response()->json([
                 'errors' => 'Sorry, We only accept birthdays in the last year',
                 'request' => $request->all()
