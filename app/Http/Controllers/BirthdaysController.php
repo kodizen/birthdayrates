@@ -11,12 +11,8 @@ class BirthdaysController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
-    {
-        $birthdays = Birthday::all();
-        // dd($birthdays);
-
-        return view('birthdays')->with('birthdays',$birthdays);
+    public function index() {
+        return Birthday::all();
     }
 
     /**
@@ -35,9 +31,10 @@ class BirthdaysController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
-    {
-        //
+    public function store(Request $request) {
+        $birthday = Birthday::create($request->all());
+        dd($birthday);
+        return response()->json($birthday, 201);
     }
 
     /**

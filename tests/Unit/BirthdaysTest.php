@@ -2,11 +2,14 @@
 
 namespace Tests\Unit;
 
-use PHPUnit\Framework\TestCase;
-use Faker;
+use Faker\Generator as Faker;
+use App\Birthday;
+use Tests\TestCase;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class BirthdaysTest extends TestCase
 {
+    use RefreshDatabase;
 
     /**
      * A test to make sure the returned date list shows the most recent date first.
@@ -15,7 +18,15 @@ class BirthdaysTest extends TestCase
      */
     public function testCanSubmitADate()
     {
-        // $date = \Carbon\Carbon::createFromTimeStamp($faker->dateTimeBetween('now', '+7 days')->getTimestamp());
+        $data = [
+            'birthday' => \Carbon\Carbon::createFromTimeStamp($this->faker->dateTimeBetween('-1 years', 'now')->getTimestamp()),
+            'occurrences' => 1
+        ];
+
+
+        $this->post(route('birthdays.store'), $data)
+            ->assertStatus(201)
+            ->assertJson($data);
     }
 
     /**
