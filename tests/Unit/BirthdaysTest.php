@@ -41,7 +41,6 @@ class BirthdaysTest extends TestCase
             'birthday' => \Carbon\Carbon::createFromTimeStamp($this->faker->dateTimeBetween('-1 years', 'now')->getTimestamp())->toDateString()
         ];
 
-
         $this->post(route('birthdays.store'), $data)
             ->assertStatus(201)
             ->assertJson($data);
@@ -81,7 +80,13 @@ class BirthdaysTest extends TestCase
      */
     public function testDateNotInFuture()
     {
-        // $this->assertTrue(false);
+        $data = [
+            'birthday' => \Carbon\Carbon::createFromTimeStamp($this->faker->dateTimeBetween('now', '+30 years')->getTimestamp())->toDateString()
+        ];
+
+        $this->post(route('birthdays.store'), $data)
+            ->assertStatus(422)
+            ->assertJsonStructure(['errors', 'request']);
     }
 
     /**

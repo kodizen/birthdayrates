@@ -35,7 +35,15 @@ class BirthdaysController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {
+    {   
+        $dateRequest = \Carbon\Carbon::createFromDate($request->birthday);
+        if($dateRequest->isFuture()){
+            return response()->json([
+                'errors' => 'Sorry, No fate but what we make. Please submit a past date.',
+                'request' => $request->all()
+            ], 422);
+        }
+
         try {
             $birthday = Birthday::where('birthday', '=', $request->birthday)->first();
             if ($birthday === null) {
