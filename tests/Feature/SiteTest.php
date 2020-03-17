@@ -6,10 +6,13 @@ use DateTime;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 use Faker\Generator as Faker;
+use App\Birthday;
 
+use Illuminate\Foundation\Testing\WithoutMiddleware;
 class SiteTest extends TestCase
 {
-   
+    use RefreshDatabase;
+
     /**
      * Can we see the homepage?
      *
@@ -17,11 +20,11 @@ class SiteTest extends TestCase
      */
     public function testPageRendersWithBirthdays()
     {   
+        factory(Birthday::class, 3)->make();
         $response = $this->call('GET', '/');
-        $birthdays = $response->getOriginalContent()->getData()['birthdays'];
-
+        $birthdays = $response->original->getData()['birthdays'];
         $this->assertInstanceOf('Illuminate\Database\Eloquent\Collection', $birthdays);
-        $response->assertSee('birthdays');
+        $response->assertViewHas('birthdays', $birthdays);
        
     }
 
@@ -33,9 +36,9 @@ class SiteTest extends TestCase
     // public function testPageRendersWithNoBirthdays()
     // {
     //     $response = $this->call('GET', '/');
-    //     $birthdays = $response->original->getData()['birthdays'];
+    //     
 
-    //     $this->assertInstanceOf('Illuminate\Database\Eloquent\Collection', $birthdays);
+    //     
 
 
     // }
