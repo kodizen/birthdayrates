@@ -110,34 +110,6 @@ class BirthdaysTest extends TestCase
      *
      * @return void
      */
-    public function testReturnedDatesMostRecentDateFirst()
-    {
-        // $birthdays = factory(Birthday::class, 100)->create()->map(function ($birthday) {
-        //     return $birthday->only(['id', 'birthday', 'occurrences']);
-        // });
-        // $bdayArray = $birthdays->toArray();
-        // // var_dump($bdayArray);
-        // for ($index = 0; $index < count($bdayArray); $index++) {
-        //     if ($index >= 1) {
-
-        //         $previousDate = \Carbon\Carbon::parse($bdayArray[$index - 1]["birthday"]);
-        //         var_dump($previousDate);
-        //         $thisDate = \Carbon\Carbon::parse($bdayArray[$index]["birthday"]);
-        //         var_dump($thisDate);
-        //         if($thisDate->lt($previousDate)){
-        //             echo 'true';
-        //         }else{
-        //             echo 'false';
-        //         };
-        //     }
-        // }
-    }
-
-    /**
-     * A test to make sure the returned date list shows the most recent date first.
-     *
-     * @return void
-     */
     public function testDateFormatCorrect()
     {
         // The date should be displayed in the following format "15th January 2019"
