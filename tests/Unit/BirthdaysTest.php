@@ -110,6 +110,30 @@ class BirthdaysTest extends TestCase
      *
      * @return void
      */
+    public function testReturnedDatesMostRecentDateFirst()
+    {
+        $birthdays = factory(Birthday::class, 50)->create()->map(function ($birthday) {
+            return $birthday->only(['id', 'birthday']);
+        });
+
+        $dateArray = [];
+        for ($index = 0; $index < count($birthdays); $index++) {
+            $dateArray[] = $birthdays[$index]["birthday"];
+        }
+
+        // Get most recent date from generated birthdays.
+        $max = max(array_map('strtotime', $dateArray));
+        $content = $this->get('/')->decodeResponseJson();
+
+        // Check the most recent date in our generated birthdays matches the first element of the json response we get at '/'
+        $this->assertEquals($content[0]["birthday"], date('Y-m-d', $max));
+    }
+
+    /**
+     * A test to make sure the returned date list shows the most recent date first.
+     *
+     * @return void
+     */
     public function testDateFormatCorrect()
     {
         // The date should be displayed in the following format "15th January 2019"
