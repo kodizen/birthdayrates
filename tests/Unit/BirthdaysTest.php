@@ -3,8 +3,9 @@
 namespace Tests\Unit;
 
 use PHPUnit\Framework\TestCase;
+use Faker;
 
-class DateTest extends TestCase
+class BirthdaysTest extends TestCase
 {
 
     /**
@@ -14,7 +15,7 @@ class DateTest extends TestCase
      */
     public function testCanSubmitADate()
     {
-        $this->assertTrue(false);
+        
     }
 
     /**

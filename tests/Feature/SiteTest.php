@@ -4,7 +4,7 @@ namespace Tests\Feature;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
-
+use Faker;
 class SiteTest extends TestCase
 {
 
@@ -19,7 +19,7 @@ class SiteTest extends TestCase
 
         $response->assertStatus(200);
     }
-    
+
     /**
      * Can we submit a date?
      *
@@ -27,11 +27,18 @@ class SiteTest extends TestCase
      */
     public function testCanSubmitACorrectDate()
     {
-        //  $this->visit('/')
-        //  ->type('15/01/2019', 'date')
-        //  ->press('Submit')
-        //  ->see('<List of dates here>')
-        //  ->seePageIs('/');
+        $faker = Faker\Factory::create();
+        $randomYearDate = $faker->dateTimeBetween('-1 years', 'now')->format('Y-m-d');
+        
+        $response = $this->post('/birthdays', [
+            'date' => $randomYearDate
+        ]);
+
+        $response->assertStatus(200);
+
+        $response->assertSessionHasErrors([]);
+
+       
     }
 
     /**
@@ -41,10 +48,18 @@ class SiteTest extends TestCase
      */
     public function testCanNotSubmitAnIncorrectDate()
     {
-         //  $this->visit('/')
-        //  ->type('15/01/2015', 'date')
-        //  ->press('Submit')
-        //  ->see('<Error Message>')
-        //  ->seePageIs('/');
+
+        // TODO: Move faker into setUp
+        $faker = Faker\Factory::create();
+
+        $randomYearDate = $faker->dateTimeBetween('+1 years', '+2 years')->format('Y-m-d');
+        
+        $response = $this->post('/birthdays', [
+            'date' => $randomYearDate
+        ]);
+
+        $response->assertStatus(400);
+
+        $response->assertSessionHasErrors(['date']);
     }
 }

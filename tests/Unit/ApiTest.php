@@ -45,7 +45,6 @@ class ApiTest extends TestCase
         $mock = new MockHandler([new Response($status, [], $body)]);
         $handler = HandlerStack::create($mock);
         $client = new \GuzzleHttp\Client(['handler' => $handler]);
-        
 
         // TODO: Implement Dates class to fetch api 
         // return new Dates($client, 'http://mocked.url');
