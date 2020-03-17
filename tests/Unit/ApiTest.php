@@ -3,6 +3,10 @@
 namespace Tests\Unit;
 
 use Tests\TestCase;
+use App\Dates;
+use GuzzleHttp\Handler\MockHandler;
+use GuzzleHttp\HandlerStack;
+use GuzzleHttp\Psr7\Response;
 
 class ApiTest extends TestCase
 {
@@ -17,10 +21,11 @@ class ApiTest extends TestCase
         $client = new \GuzzleHttp\Client();
 
         // Actually call the api with a key from our phpunit.xml
-        $url ='http://data.fixer.io/api/latest?access_key=' . env('FIXER_API_KEY');
-        
+        $url = 'http://data.fixer.io/api/latest?access_key=' . env('FIXER_API_KEY');
+
         $res = $client->get($url);
 
+        // We get a 200 response. If this test fails, there's an issue with our config.
         $this->assertEquals($res->getStatusCode(), 200);
     }
 
@@ -31,9 +36,18 @@ class ApiTest extends TestCase
      */
     public function testFallsOverGracefully()
     {
-                    //fail gracefully and return a simple error message.
-
-
+        // Fail gracefully and return a simple error message.
+        // Call getDates() mock function, call it with !200
     }
 
+    private function getDates($status, $body = null)
+    {
+        $mock = new MockHandler([new Response($status, [], $body)]);
+        $handler = HandlerStack::create($mock);
+        $client = new \GuzzleHttp\Client(['handler' => $handler]);
+        
+
+        // TODO: Implement Dates class to fetch api 
+        // return new Dates($client, 'http://mocked.url');
+    }
 }

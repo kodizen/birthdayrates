@@ -66,7 +66,6 @@ class DateTest extends TestCase
      */
     public function testDateFormatCorrect()
     {
-
         // The date should be displayed in the following format "15th January 2019"
         $this->assertTrue(false);
     }
