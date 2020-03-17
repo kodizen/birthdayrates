@@ -5,23 +5,11 @@ namespace Tests\Feature;
 use DateTime;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
-use Faker;
+use Faker\Generator as Faker;
 
 class SiteTest extends TestCase
 {
-    protected $birthdays;
-    public function setUp() :void
-    {
-        parent::setUp();
-
-        $this->seed();
-
-        // Should pull these from a proper factory class.
-        $this->birthday = factory(\Birthday::class)->create([
-            'date' => new DateTime(),
-            'ocurrences' => 12
-        ]);
-    }
+   
     /**
      * Can we see the homepage?
      *
@@ -29,7 +17,7 @@ class SiteTest extends TestCase
      */
     public function testPageRenders()
     {
-        $response = $this->call('GET', 'birthdays');
+        $response = $this->call('GET', '/');
 
         $response->assertViewHas('birthdays', function($birthdays) {
             return $birthdays->contains($this->birthday);
