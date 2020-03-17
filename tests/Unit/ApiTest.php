@@ -34,19 +34,19 @@ class ApiTest extends TestCase
      *
      * @return void
      */
-    public function testFallsOverGracefully()
-    {
+    // public function testFallsOverGracefully()
+    // {
         // Fail gracefully and return a simple error message.
         // Call getDates() mock function, call it with !200
-    }
+    // }
 
-    private function getDates($status, $body = null)
-    {
-        $mock = new MockHandler([new Response($status, [], $body)]);
-        $handler = HandlerStack::create($mock);
-        $client = new \GuzzleHttp\Client(['handler' => $handler]);
+    // private function getDates($status, $body = null)
+    // {
+    //     $mock = new MockHandler([new Response($status, [], $body)]);
+    //     $handler = HandlerStack::create($mock);
+    //     $client = new \GuzzleHttp\Client(['handler' => $handler]);
 
-        // TODO: Implement Dates class to fetch api 
-        // return new Dates($client, 'http://mocked.url');
-    }
+    //     // TODO: Implement Dates class to fetch api 
+    //     // return new Dates($client, 'http://mocked.url');
+    // }
 }

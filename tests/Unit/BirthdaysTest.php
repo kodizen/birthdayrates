@@ -11,7 +11,7 @@ class BirthdaysTest extends TestCase
 {
     use RefreshDatabase;
 
-     /**
+    /**
      * A test to make sure we can submit a birthday and we get the returned birthday.
      *
      * @return void
@@ -26,7 +26,7 @@ class BirthdaysTest extends TestCase
             ->assertStatus(200)
             ->assertJson($birthdays->toArray())
             ->assertJsonStructure([
-                '*' => [ 'id', 'birthday', 'occurrences' ],
+                '*' => ['id', 'birthday', 'occurrences'],
             ]);
     }
 
@@ -38,8 +38,7 @@ class BirthdaysTest extends TestCase
     public function testCanSubmitADate()
     {
         $data = [
-            'birthday' => \Carbon\Carbon::createFromTimeStamp($this->faker->dateTimeBetween('-1 years', 'now')->getTimestamp()),
-            'occurrences' => 1
+            'birthday' => \Carbon\Carbon::createFromTimeStamp($this->faker->dateTimeBetween('-1 years', 'now')->getTimestamp())->toDateString()
         ];
 
 
@@ -57,7 +56,22 @@ class BirthdaysTest extends TestCase
     {
 
         // If the date has already been submitted, don't store it but update the 'occurrence' count.
-        // $this->assertTrue(false);
+        $birthdays = factory(Birthday::class, 2)->create();
+        $selectedBirthday = $birthdays[0];
+       
+        $data = [
+            'birthday' => $selectedBirthday->birthday,
+            'occurrences' => $selectedBirthday->occurrences
+        ];
+
+        $expectedData = [
+            'birthday' => $selectedBirthday->birthday,
+            'occurrences' => $selectedBirthday->occurrences + 1
+        ];
+
+        $this->post(route('birthdays.store'), $data)
+            ->assertStatus(201)
+            ->assertJson($expectedData);
     }
 
     /**

@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Birthday;
+use Illuminate\Support\Facades\Log;
+
 class BirthdaysController extends Controller
 {
     /**
@@ -11,7 +13,8 @@ class BirthdaysController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index() {
+    public function index()
+    {
         return Birthday::all();
     }
 
@@ -31,9 +34,20 @@ class BirthdaysController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request) {
-        $birthday = Birthday::create($request->all());
-        return response()->json($birthday, 201);
+    public function store(Request $request)
+    {
+        try {
+            $birthday = Birthday::where('birthday', '=', $request->birthday)->first();
+            if ($birthday === null) {
+                $birthday = Birthday::create($request->all());
+            } else {
+                $birthday->occurrences++;
+                $birthday->save;
+            }
+            return response()->json($birthday, 201);
+        } catch (\Throwable $th) {
+            Log::debug($th);
+        }
     }
 
     /**
