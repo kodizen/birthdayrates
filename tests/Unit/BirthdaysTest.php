@@ -57,7 +57,7 @@ class BirthdaysTest extends TestCase
         // If the date has already been submitted, don't store it but update the 'occurrence' count.
         $birthdays = factory(Birthday::class, 2)->create();
         $selectedBirthday = $birthdays[0];
-       
+
         $data = [
             'birthday' => $selectedBirthday->birthday,
             'occurrences' => $selectedBirthday->occurrences
@@ -96,7 +96,13 @@ class BirthdaysTest extends TestCase
      */
     public function testDateWithinYear()
     {
-        // $this->assertTrue(false);
+        $data = [
+            'birthday' => \Carbon\Carbon::createFromTimeStamp($this->faker->dateTimeBetween('-10 years', '-1 years')->getTimestamp())->toDateString()
+        ];
+
+        $this->post(route('birthdays.store'), $data)
+            ->assertStatus(422)
+            ->assertJsonStructure(['errors', 'request']);
     }
 
     /**
@@ -106,7 +112,7 @@ class BirthdaysTest extends TestCase
      */
     public function testReturnedDatesMostRecentDateFirst()
     {
-        // $this->assertTrue(false);
+        
     }
 
     /**

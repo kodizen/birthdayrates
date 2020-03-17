@@ -44,6 +44,13 @@ class BirthdaysController extends Controller
             ], 422);
         }
 
+        if($dateRequest->lt(\Carbon\Carbon::now()->subYear())){
+            return response()->json([
+                'errors' => 'Sorry, We only accept birthdays in the last year',
+                'request' => $request->all()
+            ], 422);
+        }
+
         try {
             $birthday = Birthday::where('birthday', '=', $request->birthday)->first();
             if ($birthday === null) {
