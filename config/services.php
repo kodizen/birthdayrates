@@ -30,4 +30,9 @@ return [
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
 
+    'fixer' => [
+        'key' => env('API_KEY'),
+        'url' => env('FIXER_API_URL')
+    ]
+
 ];
