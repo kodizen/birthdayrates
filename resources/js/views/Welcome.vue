@@ -1,6 +1,8 @@
  <template>
   <div>
     <div class="container">
+      <div class="alert alert-success" v-if="success" role="alert">{{success}}</div>
+      <div class="alert alert-danger" v-if="error" role="alert">{{error}}</div>
       <div class="input-group mb-3">
         <input
           type="text"
@@ -48,7 +50,9 @@ export default {
   data() {
     return {
       rates: [],
-      birthday: ""
+      birthday: "",
+      error: null,
+      success: null
     };
   },
   mounted() {
@@ -57,6 +61,7 @@ export default {
   methods: {
     getBirthdays() {
       axios.get("/api/birthdays").then(response => {
+        this.error = null;
         this.rates = response.data;
       });
     },
@@ -65,10 +70,18 @@ export default {
       axios
         .post("/api/birthdays", { birthday: this.birthday })
         .then(function(response) {
+          self.success = "🎂 submitted successfully!";
+          self.error = null;
           self.getBirthdays();
         })
         .catch(function(error) {
-          console.log(error);
+          self.success = null;
+          if (error.response.data.errors) {
+            self.error = error.response.data.errors;
+          } else {
+            self.error =
+              "Something went wrong! Check your date format and try again.";
+          }
         });
     }
   }
