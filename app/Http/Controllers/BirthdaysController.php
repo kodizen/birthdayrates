@@ -55,6 +55,11 @@ class BirthdaysController extends Controller
         try {
             $birthday = Birthday::where('birthday', '=', $request->birthday)->first();
             if ($birthday === null) {
+
+
+                // Fetch from fixer.io
+                
+
                 $birthday = Birthday::create($request->all());
             } else {
                 $birthday->occurrences++;

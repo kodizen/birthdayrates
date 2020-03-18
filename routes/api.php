@@ -18,11 +18,12 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+Route::group(['prefix' => 'external'], function () {
+    Route::get('/fixer', 'ApiController@index')->name('fixer');
+});
 
 Route::group(['prefix' => 'birthdays'], function () {
     Route::get('/', 'BirthdaysController@index')->name('birthdays');
-    Route::get('/{birthday}', 'BirthdaysController@show')->name('birthdays.show');
     Route::post('/', 'BirthdaysController@store')->name('birthdays.store');
-    Route::put('/{birthday}', 'BirthdaysController@update')->name('birthdays.update');
-    Route::delete('/{birthday}', 'BirthdaysController@delete')->name('birthdays.delete');
 });
+

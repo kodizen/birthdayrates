@@ -34,11 +34,27 @@ class ApiTest extends TestCase
      *
      * @return void
      */
-    // public function testFallsOverGracefully()
-    // {
-        // Fail gracefully and return a simple error message.
-        // Call getDates() mock function, call it with !200
-    // }
+    public function testFallsOverGracefully()
+    {
+        $this->get(route('fixer'))
+            ->assertStatus(200)
+            ->assertJsonStructure(
+                [
+                    'base',
+                    'date',
+                    'rates' => [
+                        'AUD',
+                        'CAD',
+                        'CHF',
+                        'CNY',
+                        'GBP',
+                        'JPY',
+                        'USD',
+                        'EUR'
+                    ]
+                ],
+            );
+    }
 
     // private function getDates($status, $body = null)
     // {
