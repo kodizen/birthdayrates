@@ -84,8 +84,9 @@ class BirthdaysController extends Controller
                 $birthday->formatted_birthday = $birthday->getFormattedDate();
                 $birthday->save();
             } else {
+
                 $birthday->occurrences++;
-                $birthday->save;
+                $birthday->save();
             }
             return response()->json($birthday, 201);
         } catch (\Throwable $th) {
