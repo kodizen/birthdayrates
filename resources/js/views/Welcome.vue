@@ -1,6 +1,20 @@
  <template>
   <div>
-    <add-birthday></add-birthday>
+    <div class="container">
+      <div class="input-group mb-3">
+        <input
+          type="text"
+          class="form-control"
+          placeholder="Enter Your birthday in Y-m-d format"
+          aria-label="Enter Your birthday in Y-m-d format"
+          aria-describedby="basic-addon2"
+          v-model="birthday"
+        />
+        <div class="input-group-append">
+          <button class="btn btn-outline-secondary" v-on:click="postBirthday" type="button">Submit</button>
+        </div>
+      </div>
+    </div>
     <div class="container">
       <table class="table table-dark">
         <thead>
@@ -30,22 +44,33 @@
   </div>
 </template>
 <script>
-import AddBirthday from "../views/AddBirthday";
-
 export default {
   data() {
     return {
-      rates: []
+      rates: [],
+      birthday: ""
     };
   },
   mounted() {
-    axios.get("/api/birthdays").then(response => {
-      console.log(response.data);
-      this.rates = response.data;
-    });
+    this.getBirthdays();
   },
-  components: {
-    "add-birthday": AddBirthday
+  methods: {
+    getBirthdays() {
+      axios.get("/api/birthdays").then(response => {
+        this.rates = response.data;
+      });
+    },
+    postBirthday(event) {
+      let self = this;
+      axios
+        .post("/api/birthdays", { birthday: this.birthday })
+        .then(function(response) {
+          self.getBirthdays();
+        })
+        .catch(function(error) {
+          console.log(error);
+        });
+    }
   }
 };
 </script>
