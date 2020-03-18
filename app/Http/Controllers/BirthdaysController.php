@@ -45,7 +45,6 @@ class BirthdaysController extends Controller
     public function store(Request $request)
     {
         $dateRequest = \Carbon\Carbon::createFromDate($request->birthday);
-        // var_dump($dateRequest->format('Y-m-d'));
 
         if ($dateRequest->isFuture()) {
             return response()->json([
@@ -60,23 +59,20 @@ class BirthdaysController extends Controller
                 'request' => $request->all()
             ], 422);
         }
+
         try {
             $birthday = Birthday::where('birthday', '=', $request->birthday)->first();
 
             if ($birthday === null) {
-
-
                 // Fetch from fixer.io
                 try {
                     $rate = $this->rate->findByDate($dateRequest->format('Y-m-d'));
                 } catch (\Throwable $th) {
-                    dd($th);
                     return response()->json([
                         'errors' => $th
                     ], 400);
                 }
                 
-                // dd($rate->rates->CAD);
                 $data = [
                     'birthday' => $rate->date,
                     'JPY' => $rate->rates->JPY,
@@ -94,8 +90,6 @@ class BirthdaysController extends Controller
             }
             return response()->json($birthday, 201);
         } catch (\Throwable $th) {
-            dd($th);
-
             return response()->json([
                 'errors' => $th
             ], 400);

@@ -12,4 +12,4 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
-Route::resource('/', 'BirthdaysController');
+Route::get('/{any}', 'SiteController@index')->where('any', '.*');
