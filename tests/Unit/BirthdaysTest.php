@@ -18,7 +18,7 @@ class BirthdaysTest extends TestCase
      */
     public function testCanViewBirthdays()
     {
-        $birthdays = factory(Birthday::class, 2)->create()->map(function ($birthday) {
+        factory(Birthday::class, 2)->create()->map(function ($birthday) {
             return $birthday;
         });
 
@@ -37,8 +37,7 @@ class BirthdaysTest extends TestCase
     public function testCanSubmitADate()
     {
         $data = [
-            'birthday' => \Carbon\Carbon::createFromTimeStamp($this->faker->dateTimeBetween('-1 years', 'now')->getTimestamp())->toDateString(),
-
+            'birthday' => \Carbon\Carbon::createFromTimeStamp($this->faker->dateTimeBetween('-1 years', 'now')->getTimestamp())->toDateString()
         ];
 
         $this->post(route('birthdays.store'), $data)

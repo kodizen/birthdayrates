@@ -15,6 +15,7 @@ class Birthday extends Model
         'birthday', 'base', 'GBP', 'USD', 'EUR', 'CAD', 'JPY', 'occurrences'
     ];
 
+
     /**
      * Get the date in a formatted string.
      *

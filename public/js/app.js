@@ -171,8 +171,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -183,7 +181,8 @@ __webpack_require__.r(__webpack_exports__);
     var _this = this;
 
     axios.get("/api/birthdays").then(function (response) {
-      return _this.rates = response.data;
+      console.log(response.data);
+      _this.rates = response.data;
     });
   }
 });
@@ -775,9 +774,7 @@ var render = function() {
           "tbody",
           _vm._l(_vm.rates, function(rate) {
             return _c("tr", { key: rate.id }, [
-              _c("th", { attrs: { scope: "row" } }, [_vm._v(_vm._s(rate.id))]),
-              _vm._v(" "),
-              _c("th", [_vm._v(_vm._s(rate.birthday))]),
+              _c("th", [_vm._v(_vm._s(rate.formatted_birthday))]),
               _vm._v(" "),
               _c("th", [_vm._v(_vm._s(rate.base))]),
               _vm._v(" "),
@@ -805,8 +802,6 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("thead", [
       _c("tr", [
-        _c("th", { attrs: { scope: "col" } }, [_vm._v("#")]),
-        _vm._v(" "),
         _c("th", { attrs: { scope: "col" } }, [_vm._v("Birthday")]),
         _vm._v(" "),
         _c("th", { attrs: { scope: "col" } }, [_vm._v("Base")]),

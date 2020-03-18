@@ -9,14 +9,16 @@ $factory->define(Birthday::class, function (Faker $faker) {
     $currencyArray = array('GBP', 'USD', 'EUR', 'CAD', 'JPY');
     $randCurrency = $currencyArray[array_rand($currencyArray)];
     
+    $birthday = \Carbon\Carbon::createFromTimeStamp($faker->dateTimeBetween('-1 years', 'now')->getTimestamp())->toDateString();
     return [
-        'birthday' => \Carbon\Carbon::createFromTimeStamp($faker->dateTimeBetween('-1 years', 'now')->getTimestamp())->toDateString(),
+        'birthday' => $birthday,
         'GBP' => ($randCurrency == 'GBP' ? 1 : $faker->randomFloat(4, 0, 2)),
         'USD' => ($randCurrency == 'USD' ? 1 : $faker->randomFloat(4, 0, 2)),
         'EUR' => ($randCurrency == 'EUR' ? 1 : $faker->randomFloat(4, 0, 2)),
         'CAD' => ($randCurrency == 'CAD' ? 1 : $faker->randomFloat(4, 0, 2)),
         'JPY' => ($randCurrency == 'JPY' ? 1 : $faker->randomFloat(4, 0, 2)),
         'base' => $randCurrency,
-        'occurrences' => rand()
+        'occurrences' => rand(),
+        'formatted_birthday' => \Carbon\Carbon::parse($birthday)->format('jS F Y')
     ];
 });
