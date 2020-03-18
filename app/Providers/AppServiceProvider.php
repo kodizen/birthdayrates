@@ -14,8 +14,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $baseUrl = env('FIXER_API_URL');
-        
+        $baseUrl = config('services.fixer.url');
         $this->app->singleton('GuzzleHttp\Client', function ($api) use ($baseUrl) {
             return new Client([
                 'base_uri' => $baseUrl,

@@ -18,8 +18,8 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::group(['prefix' => 'external'], function () {
-    Route::get('/fixer', 'ApiController@index')->name('fixer');
+Route::group(['prefix' => 'fixer'], function () {
+    Route::get('/', 'ApiController@index')->name('fixer');
 });
 
 Route::group(['prefix' => 'birthdays'], function () {

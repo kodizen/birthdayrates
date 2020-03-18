@@ -19,13 +19,13 @@ class BirthdaysTest extends TestCase
     public function testCanViewBirthdays()
     {
         $birthdays = factory(Birthday::class, 2)->create()->map(function ($birthday) {
-            return $birthday->only(['id', 'birthday', 'occurrences']);
+            return $birthday;
         });
 
         $this->get(route('birthdays'))
             ->assertStatus(200)
             ->assertJsonStructure([
-                '*' => ['id', 'birthday', 'occurrences'],
+                '*' => ['id', 'birthday', 'JPY', 'CAD', 'EUR', 'USD', 'GBP', 'base', 'occurrences'],
             ]);
     }
 
@@ -37,7 +37,8 @@ class BirthdaysTest extends TestCase
     public function testCanSubmitADate()
     {
         $data = [
-            'birthday' => \Carbon\Carbon::createFromTimeStamp($this->faker->dateTimeBetween('-1 years', 'now')->getTimestamp())->toDateString()
+            'birthday' => \Carbon\Carbon::createFromTimeStamp($this->faker->dateTimeBetween('-1 years', 'now')->getTimestamp())->toDateString(),
+
         ];
 
         $this->post(route('birthdays.store'), $data)
@@ -80,7 +81,8 @@ class BirthdaysTest extends TestCase
     public function testDateNotInFuture()
     {
         $data = [
-            'birthday' => \Carbon\Carbon::createFromTimeStamp($this->faker->dateTimeBetween('now', '+30 years')->getTimestamp())->toDateString()
+            'birthday' => \Carbon\Carbon::createFromTimeStamp($this->faker->dateTimeBetween('now', '+30 years')->getTimestamp())->toDateString(),
+
         ];
 
         $this->post(route('birthdays.store'), $data)

@@ -5,9 +5,16 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Birthday;
 use Illuminate\Support\Facades\Log;
+use App\Util\Rate;
 
 class BirthdaysController extends Controller
 {
+    protected $rate;
+
+    public function __construct(Rate $rate)
+    {
+        $this->rate = $rate;
+    }
     /**
      * Display a listing of the resource.
      *
@@ -38,6 +45,8 @@ class BirthdaysController extends Controller
     public function store(Request $request)
     {
         $dateRequest = \Carbon\Carbon::createFromDate($request->birthday);
+        // var_dump($dateRequest->format('Y-m-d'));
+
         if ($dateRequest->isFuture()) {
             return response()->json([
                 'errors' => 'Sorry, No fate but what we make. Please submit a past date.',
@@ -51,23 +60,45 @@ class BirthdaysController extends Controller
                 'request' => $request->all()
             ], 422);
         }
-
         try {
             $birthday = Birthday::where('birthday', '=', $request->birthday)->first();
+
             if ($birthday === null) {
 
 
                 // Fetch from fixer.io
+                try {
+                    $rate = $this->rate->findByDate($dateRequest->format('Y-m-d'));
+                } catch (\Throwable $th) {
+                    dd($th);
+                    return response()->json([
+                        'errors' => $th
+                    ], 400);
+                }
                 
+                // dd($rate->rates->CAD);
+                $data = [
+                    'birthday' => $rate->date,
+                    'JPY' => $rate->rates->JPY,
+                    'CAD' => $rate->rates->CAD,
+                    'EUR' => $rate->rates->EUR,
+                    'USD' => $rate->rates->USD,
+                    'GBP' => $rate->rates->GBP,
+                    'base' => $rate->base
+                ];
 
-                $birthday = Birthday::create($request->all());
+                $birthday = Birthday::create($data);
             } else {
                 $birthday->occurrences++;
                 $birthday->save;
             }
             return response()->json($birthday, 201);
         } catch (\Throwable $th) {
-            Log::debug($th);
+            dd($th);
+
+            return response()->json([
+                'errors' => $th
+            ], 400);
         }
     }
 

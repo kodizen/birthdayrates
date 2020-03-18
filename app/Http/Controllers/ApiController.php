@@ -20,7 +20,6 @@ class ApiController extends Controller
     public function index()
     {
         $rate = $this->rate->latest();
-        var_dump($rate);
         return response()->json($rate, 200);
     }
 }

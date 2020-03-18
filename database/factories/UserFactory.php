@@ -3,7 +3,6 @@
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
 
 use App\User;
-use App\Birthday;
 use Faker\Generator as Faker;
 use Illuminate\Support\Str;
 
@@ -28,9 +27,3 @@ $factory->define(User::class, function (Faker $faker) {
     ];
 });
 
-$factory->define(Birthday::class, function (Faker $faker) {
-    return [
-        'birthday' => \Carbon\Carbon::createFromTimeStamp($faker->dateTimeBetween('-1 years', 'now')->getTimestamp())->toDateString(),
-        'occurrences' => rand()
-    ];
-});

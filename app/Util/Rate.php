@@ -20,12 +20,12 @@ class Rate
 
     public function findByDate($date)
     {
+        
         return $this->endpointRequest('/' . $date);
     }
 
     public function endpointRequest($url)
     {
-
         try {
             $response = $this->client->request('GET', $url . '?access_key=' . config('services.fixer.key'));
         } catch (\Exception $e) {

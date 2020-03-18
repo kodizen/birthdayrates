@@ -12,7 +12,7 @@ class Birthday extends Model
      * @var array
      */
     protected $fillable = [
-        'birthday', 'occurrences'
+        'birthday', 'base', 'GBP', 'USD', 'EUR', 'CAD', 'JPY', 'occurrences'
     ];
 
     /**
