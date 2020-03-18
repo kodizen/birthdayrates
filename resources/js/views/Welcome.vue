@@ -1,7 +1,7 @@
  <template>
-  <div class="container">
-    <div class="m-b-md">
-      <h2 class="title m-b-md">Welcome to Birthday Rates</h2>
+  <div>
+    <add-birthday></add-birthday>
+    <div class="container">
       <table class="table table-dark">
         <thead>
           <tr>
@@ -30,6 +30,8 @@
   </div>
 </template>
 <script>
+import AddBirthday from "../views/AddBirthday";
+
 export default {
   data() {
     return {
@@ -38,11 +40,12 @@ export default {
   },
   mounted() {
     axios.get("/api/birthdays").then(response => {
-    
-    console.log(response.data)
-    this.rates = response.data
-        
+      console.log(response.data);
+      this.rates = response.data;
     });
+  },
+  components: {
+    "add-birthday": AddBirthday
   }
 };
 </script>

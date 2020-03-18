@@ -72,8 +72,7 @@ class BirthdaysController extends Controller
                         'errors' => $th
                     ], 400);
                 }
-                
-                $data = [
+                $birthday = new Birthday([
                     'birthday' => $rate->date,
                     'JPY' => $rate->rates->JPY,
                     'CAD' => $rate->rates->CAD,
@@ -81,9 +80,9 @@ class BirthdaysController extends Controller
                     'USD' => $rate->rates->USD,
                     'GBP' => $rate->rates->GBP,
                     'base' => $rate->base
-                ];
-
-                $birthday = Birthday::create($data);
+                ]);
+                $birthday->formatted_birthday = $birthday->getFormattedDate();
+                $birthday->save();
             } else {
                 $birthday->occurrences++;
                 $birthday->save;

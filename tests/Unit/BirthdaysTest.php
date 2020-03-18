@@ -25,7 +25,7 @@ class BirthdaysTest extends TestCase
         $this->get(route('birthdays'))
             ->assertStatus(200)
             ->assertJsonStructure([
-                '*' => ['id', 'birthday', 'JPY', 'CAD', 'EUR', 'USD', 'GBP', 'base', 'occurrences'],
+                '*' => ['id', 'birthday', 'JPY', 'CAD', 'EUR', 'USD', 'GBP', 'base', 'occurrences', 'formatted_birthday'],
             ]);
     }
 
@@ -42,7 +42,8 @@ class BirthdaysTest extends TestCase
 
         $this->post(route('birthdays.store'), $data)
             ->assertStatus(201)
-            ->assertJson($data);
+            ->assertJson($data)
+            ->assertJsonStructure(['formatted_birthday']);
     }
 
     /**
