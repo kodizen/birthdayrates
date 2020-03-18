@@ -53,24 +53,23 @@ class BirthdaysTest extends TestCase
      */
     public function testDoesNotStoreDuplicates()
     {
-
         // If the date has already been submitted, don't store it but update the 'occurrence' count.
         $birthdays = factory(Birthday::class, 2)->create();
         $selectedBirthday = $birthdays[0];
 
         $data = [
-            'birthday' => $selectedBirthday->birthday,
-            'occurrences' => $selectedBirthday->occurrences
+            'birthday' => $selectedBirthday->birthday
         ];
 
         $expectedData = [
             'birthday' => $selectedBirthday->birthday,
             'occurrences' => $selectedBirthday->occurrences + 1
         ];
+       
+        $response = $this->post(route('birthdays.store'), $data);
+        $response->assertStatus(201);
 
-        $this->post(route('birthdays.store'), $data)
-            ->assertStatus(201)
-            ->assertJson($expectedData);
+        $this->assertDatabaseHas('birthdays', $expectedData);
     }
 
     /**
@@ -81,8 +80,7 @@ class BirthdaysTest extends TestCase
     public function testDateNotInFuture()
     {
         $data = [
-            'birthday' => \Carbon\Carbon::createFromTimeStamp($this->faker->dateTimeBetween('now', '+30 years')->getTimestamp())->toDateString(),
-
+            'birthday' => \Carbon\Carbon::createFromTimeStamp($this->faker->dateTimeBetween('now', '+30 years')->getTimestamp())->toDateString()
         ];
 
         $this->post(route('birthdays.store'), $data)
