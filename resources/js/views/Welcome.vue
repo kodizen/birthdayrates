@@ -18,30 +18,32 @@
       </div>
     </div>
     <div class="container">
-      <table class="table table-dark">
-        <thead>
-          <tr>
-            <th scope="col">Birthday</th>
-            <th scope="col">Base</th>
-            <th scope="col">GBP</th>
-            <th scope="col">USD</th>
-            <th scope="col">CAD</th>
-            <th scope="col">JPY</th>
-            <th scope="col">Occurrences</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="rate in rates" :key="rate.id">
-            <th>{{rate.formatted_birthday}}</th>
-            <th>{{rate.base}}</th>
-            <th>{{rate.GBP}}</th>
-            <th>{{rate.USD}}</th>
-            <th>{{rate.CAD}}</th>
-            <th>{{rate.JPY}}</th>
-            <th>{{rate.occurrences}}</th>
-          </tr>
-        </tbody>
-      </table>
+      <div class="table-responsive">
+        <table class="table">
+          <thead class="thead-dark">
+            <tr>
+              <th scope="col">Birthday</th>
+              <th scope="col">Base</th>
+              <th scope="col">GBP</th>
+              <th scope="col">USD</th>
+              <th scope="col">CAD</th>
+              <th scope="col">JPY</th>
+              <th scope="col">Occurrences</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="rate in rates" :key="rate.id">
+              <th>{{rate.formatted_birthday}}</th>
+              <th>{{rate.base}}</th>
+              <th>{{rate.GBP}}</th>
+              <th>{{rate.USD}}</th>
+              <th>{{rate.CAD}}</th>
+              <th>{{rate.JPY}}</th>
+              <th>{{rate.occurrences}}</th>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
   </div>
 </template>

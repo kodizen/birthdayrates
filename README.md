@@ -1,4 +1,4 @@
-[Time boxed to one hour]
+Deployed to http://178.62.65.4/
 
 Using the following service http://fixer.io you are to create a simple web app which allows a user to find out what the exchange rate (for a currency of your choice) was on their previous birthday.
  
